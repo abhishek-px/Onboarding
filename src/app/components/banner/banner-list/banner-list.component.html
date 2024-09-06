@@ -1,0 +1,109 @@
+<router-outlet></router-outlet>
+<div class="row" id="table-bordered">
+    <div class="col-12">
+        <div class="card">
+            <h5 class="card-header mb-2">All Users
+                <a href="javascript:void(0)" routerLink='/admin/banner/add'
+                    routerLinkActive="router-link-active"
+                    class="btn btn-primary ">Add</a>
+            </h5>
+
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive mb-2">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th class="w-60">S.NO</th>
+                                <th>IMAGE</th>
+                                <th>TITLE</th>
+                                <th>DESCRIPTION</th>
+                                <th>STATUS</th>
+                                <th>User Type</th>
+                                <th>Device Type</th>
+                                <th class="w-85">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of bannerList.docs let i = index">
+                                <td>{{(page - 1)*10+i+1}}</td>
+                                <td>
+                                    <img alt="Avatar"
+                                        onerror="this.src='../../../assets/images/portrait/small/default_user.png'"
+                                        src="{{item?.image}}">
+                                </td>
+                                <td>{{item?.title}}</td>
+                                <td>{{item?.description}}</td>
+
+                                <td>
+                                    <span *ngIf="item?.status == 'Inactive' "
+                                        class="badge badge-pill badge-light-danger">{{item?.status}}</span>
+                                    <span *ngIf="item?.status == 'Active' "
+                                        class="badge badge-pill badge-light-primary">{{item?.status}}</span>
+                                </td>
+                                <td>{{item?.userType}}</td>
+                                <td>{{item?.deviceType}}</td>
+                                <td>
+                                    <div container="body" ngbDropdown
+                                        placement="bottom-right"
+                                        class="d-inline-block">
+                                        <button type="button"
+                                            class="btn btn-flat-primary waves-effect waves-light"
+                                            id="dropdownBasic2"
+                                            ngbDropdownToggle><i
+                                                class="feather icon-more-vertical"></i></button>
+                                        <div ngbDropdownMenu
+                                            aria-labelledby="dropdownBasic2">
+                                            <a href="javascript:void(0)"
+                                                routerLink='/admin/banner/edit/{{item?.id}}'
+                                                routerLinkActive="router-link-active"
+                                                ngbDropdownItem><i
+                                                    class="feather icon-edit mr-50"></i><span>Edit</span></a>
+                                            <!-- <a href="javascript:void(0)" ngbDropdownItem><i
+                                                        class="feather icon-eye mr-50"></i><span>View</span></a> -->
+
+                                            <button *ngIf="item?.status == 1"
+                                                (click)="activeBanner(item)"
+                                                ngbDropdownItem
+                                                href="javascript:void(0);"><i
+                                                    class="feather icon-user-check mr-50"></i><span>Active</span></button>
+
+                                            <button *ngIf="item?.status == 0"
+                                                (click)="deactiveBanner(item)"
+                                                ngbDropdownItem
+                                                href="javascript:void(0);"><i
+                                                    class="feather icon-user-x mr-50"></i>
+                                                <span>Inactive</span></button>
+
+                                            <button (click)="deleteBanner(item)"
+                                                ngbDropdownItem><i
+                                                    class="feather icon-trash-2 mr-50"></i>
+                                                <span>Permanent Delete
+                                                </span></button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="bannerList.docs?.length == 0">
+                                <td colspan="8" class="text-center">No record
+                                    Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <ngb-pagination *ngIf="bannerListLength.length!=0 && apiCalled"
+                    [collectionSize]="bannerList.total"
+                    [(page)]="page" [maxSize]="10" [rotate]="true"
+                    [boundaryLinks]="true"
+                    (pageChange)="refreshList(page,'')">
+                </ngb-pagination>
+
+            </div>
+        </div>
+    </div>
+</div>

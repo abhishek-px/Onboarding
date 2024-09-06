@@ -1,0 +1,17 @@
+.dropdown-user-link{
+    span{
+        img{
+            object-fit: cover;
+        }
+    }
+}
+.header-navbar .navbar-container ul.nav li.dropdown-user .dropdown-menu-right .dropdown-item:hover, 
+.header-navbar .navbar-container ul.nav li.dropdown-user .dropdown-menu-right .dropdown-item:active {
+    background: #030835;
+    color: #FFFFFF !important;
+}
+.dropdown-toggle{
+    .feather{
+        margin-left: 5px;
+    }
+}
