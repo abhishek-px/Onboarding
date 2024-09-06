@@ -9,60 +9,38 @@ import { environment } from '../../environments/environment';
 
 export class BannerService {
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-    apiUrl: any = environment.apiUrl;
-    finalApi:any = this.apiUrl;
-    Api:any;
-
-
-    extractData(res: any) {
-        const body = res;
-        return body || {};
-    }
+  apiUrl: any = environment.apiUrl;
+  finalApi: any = this.apiUrl;
+  Api: any;
 
 
-
-    addBanner(request: any): Observable<any> {
-        return this.http.post(`${this.apiUrl}/admin/banner`,request).pipe(map(this.extractData));
-    }
-
-    getBanner(request: any): Observable<any> {
-
-      this.Api = (`${this.apiUrl}/admin/banner?page=` + request.page + '&limit=' + request.limit);
-
-      if(request.status != "")
-        this.Api += '&status='+request.status;
-
-      if(request.userType != "")
-        this.Api += '&userType='+request.userType;
-
-      if(request.deviceType != "")
-        this.Api += '&deviceType='+request.deviceType ;
-
-      if(request.searchBy != "")
-        this.Api += '&title='+request.searchBy;
+  extractData(res: any) {
+    const body = res;
+    return body || {};
+  }
 
 
-      this.finalApi = this.http.get(this.Api).pipe(map(this.extractData));
 
-      return this.finalApi;
-    }
+  addBanner(request: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/admin/customers/add-customer/`, request).pipe(map(this.extractData));
+  }
 
-    getBannerDetails(request: any): Observable<any> {
-        return this.http.get(`${this.apiUrl}/admin/banner/` + request).pipe(map(this.extractData));
-    }
+  getBanner(): Observable<any> {
+    this.Api = `${this.apiUrl}/admin/customers`;
 
-    updateBanner(id: any, request: any ): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/admin/banner/` + id, request).pipe(map(this.extractData));
-    }
+    this.finalApi = this.http.get(this.Api).pipe(map(this.extractData));
 
-    dltBanner(request: any): Observable<any> {
-        return this.http.delete(`${this.apiUrl}/admin/banner/` + request).pipe(map(this.extractData));
-    }
+    return this.finalApi;
+  }
 
-    statusBanner(id: any, request: any): Observable<any> {
-        return this.http.patch(`${this.apiUrl}/admin/banner/` + id, request).pipe(map(this.extractData));
-    }
+  getBannerDetails(request: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/admin/customers/` + request).pipe(map(this.extractData));
+  }
+
+  updateBanner(id: any, request: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/admin/banner/` + id, request).pipe(map(this.extractData));
+  }
 
 }

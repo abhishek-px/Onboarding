@@ -3,7 +3,8 @@ export const environment = {
   // apiUrl: 'https://we-api.apikart.co/v1',
   // apiUrl: 'http://localhost:8000/v1',
   getAdminLoginToken: 'Basic YXN0cm9nYW5lc2g6YXN0cm9nYW5lc2hAMTIzNDU=',
-  apiUrl: 'https://api.astroganesh.in/v1',
+  // apiUrl: 'https://api.astroganesh.in/v1',
+  apiUrl: 'http://localhost:8000/v1'
   // getAdminLoginToken: 'Basic YXN0cm9nYW5lc2g6YXN0cm9nYW5lc2hAMTIzNDU=',
 };
 

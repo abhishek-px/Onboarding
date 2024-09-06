@@ -43,7 +43,7 @@ export class BannerListComponent implements OnInit {
   constructor(
     private _toastrService: ToastrService,
     private _bannerService: BannerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getBannersFromApi();
@@ -51,110 +51,34 @@ export class BannerListComponent implements OnInit {
 
   getBannersFromApi() {
     this.apiCalled = true;
-    this._bannerService
-      .getBanner({
-        page: this.page,
-        limit: this.limit,
-        searchBy: this.searchForm.search,
-        status: this.searchForm.status,
-        userType: this.searchForm.userType,
-        deviceType: this.searchForm.deviceType,
-        name: this.searchForm.name,
-      })
-      .subscribe((objS) => {
+    this._bannerService.getBanner().subscribe(
+      (objS) => {
         this.apiCalled = true;
-        if ((objS.code = 200)) {
+        console.log('API Response:', objS); // Check the full API response
+
+        if (objS.code === 200) {
+          console.log('Banners Data:', objS.data); // Check the actual data
           this.bannerList = objS.data;
           this.bannerListLength = objS.data.docs;
+
+          // Log the bannerList to the console
+          console.log('Banner List:', this.bannerList);
         } else {
           this._toastrService.error(objS.message);
         }
-      });
+      },
+      (err) => {
+        console.error('Error fetching banners:', err);
+        this._toastrService.error('Failed to fetch banner data.');
+      }
+    );
   }
+
 
   refreshList(page: any, search: any) {
     this.page = page ? page : 1;
     this.getBannersFromApi();
   }
 
-  deleteBanner(request: any) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to delete this banner ?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
-    }).then((result) => {
-      if (result.value) {
-        this._bannerService.dltBanner(request.id).subscribe(
-          (objS) => {
-            this.apiCalled = true;
-            this.getBannersFromApi();
-            this._toastrService.success(objS.message);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-      }
-    });
-  }
-
-  deactiveBanner(request: any) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to deactive this banner ?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
-    }).then((result) => {
-      if (result.value) {
-        let data = {
-          status: 0,
-        };
-        this._bannerService.statusBanner(request.id, data).subscribe(
-          (objS) => {
-            this.apiCalled = true;
-            this.getBannersFromApi();
-            this._toastrService.success(objS.message);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-      }
-    });
-  }
-
-  activeBanner(request: any) {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to activate this banner ?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes',
-    }).then((result) => {
-      if (result.value) {
-        let data = {
-          status: 1,
-        };
-        this._bannerService.statusBanner(request.id, data).subscribe(
-          (objS) => {
-            this.apiCalled = true;
-            this.getBannersFromApi();
-            this._toastrService.success(objS.message);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-      }
-    });
-  }
+  
 }

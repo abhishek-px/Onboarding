@@ -19,17 +19,17 @@ export class AddBannerComponent implements OnInit {
   showError: boolean = false;
   apiCalled: boolean = false;
   bannerForm: any = {};
-  userType:any;
-  deviceType:any;
-  status:any;
+  userType: any;
+  deviceType: any;
+  status: any;
   // profile: any = {}
 
   constructor(
     private _toastrService: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _bannerService :BannerService,
-    private _authService :AuthService,
+    private _bannerService: BannerService,
+    private _authService: AuthService,
     private spinner: NgxSpinnerService,
   ) { }
 
@@ -68,14 +68,15 @@ export class AddBannerComponent implements OnInit {
       this.loading = true;
 
       const formdata = new FormData();
-      if (this.bannerForm.file) {
-        formdata.append('image', this.bannerForm.file);
-      }
-      formdata.append('title', this.bannerForm.title);
-      formdata.append('description', this.bannerForm.description);
-      formdata.append('userType', this.bannerForm.userType);
-      formdata.append('deviceType', this.bannerForm.deviceType);
-      formdata.append('status', this.bannerForm.status);
+
+      formdata.append('fullName', this.bannerForm.fullName);
+      formdata.append('mobileNumber', this.bannerForm.mobileNumber);
+      formdata.append('address', this.bannerForm.address);
+      formdata.append('birthDate', this.bannerForm.birthDate);
+      formdata.append('gender', this.bannerForm.gender);
+      formdata.append('landMark', this.bannerForm.landMark);
+      formdata.append('pinCode', this.bannerForm.pinCode);
+
 
       this._bannerService.addBanner(formdata).subscribe(objS => {
         this.loading = this.showError = false;
